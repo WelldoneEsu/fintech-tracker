@@ -18,7 +18,7 @@ bash
 - git clone https://github.com/WelldoneEsu/fintech-tracker.git
 
 # Navigate into the folder
-- cd blog-api
+- cd fintech-tracker
 
 # Install dependencies
 - npm install
