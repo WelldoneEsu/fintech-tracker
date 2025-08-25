@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const cors = require('cors');
 
 // Load environment variables as early as possible
 dotenv.config();
