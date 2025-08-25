@@ -1,12 +1,13 @@
 // app.js
 const express = require('express');
+const app = express();
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const cors = require('cors');
 
 // Load environment variables as early as possible
 dotenv.config();
@@ -29,16 +30,15 @@ app.use(cors({
     credentials: true,
 }));*/
 
-
+app.use(cors({ origin: true, credentials: true }));
 
 
 // Middleware
-const app = express();
+
 app.use(express.json());
 
 // Security Middlewares
 app.use(helmet());
-app.use(cors({ origin: true, credentials: true }));
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
