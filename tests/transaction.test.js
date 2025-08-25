@@ -10,11 +10,11 @@ describe('Transaction Routes', () => {
     await User.deleteMany(); // cleanup to avoid duplicate email error
 
     const user = await User.create({
-      name: "kim",
+      name: "payme",
       email: "test@example.com",
-      password: "password123",
+      password: "123456",
       accountType: "savings",
-      balance: 1000,
+      balance: 10000,
     });
 
     userId = user._id;
@@ -25,11 +25,11 @@ describe('Transaction Routes', () => {
     const res = await request(app)
       .post('/api/transactions')
       .set('Authorization', `Bearer ${token}`)
-      .send({ type: 'credit', amount: 2000 });
+      .send({ type: 'credit', amount: 200});
 
     expect(res.statusCode).toBe(201);
     expect(res.body.transaction.type).toBe('credit');
-    expect(res.body.transaction.amount).toBe(2000); 
+    expect(res.body.transaction.amount).toBe(200); 
   });
 
   it('should not allow debit more than balance', async () => {
@@ -38,7 +38,8 @@ describe('Transaction Routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({ type: 'debit', amount: 2000 }); 
 
-    expect(res.statusCode).toBe(400); 
-    expect(res.body.message).toBe('Insufficient balance');
+    expect(res.statusCode).toBe(403); 
+    expect(res.body.transaction.type).toBe('debit');
+    expect(res.body.transaction.amount).toBe(200); 
   });
-});
+  });

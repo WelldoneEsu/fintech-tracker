@@ -12,6 +12,23 @@ dotenv.config();
 // Connect DB first
 connectDB(); 
 
+/*const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'http://localhost:3000',
+    'http://localhost:5000' ]; // Frontend URL
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes (origin)) {
+            callback(null, true);
+        } else {
+        callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+}));*/
+
+
 
 
 // Middleware
@@ -20,6 +37,7 @@ app.use(express.json());
 
 // Security Middlewares
 app.use(helmet());
+app.use(cors({ origin: true, credentials: true }));
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -27,6 +45,13 @@ app.use(
     message: "Too many requests, please try again later.",
   })
 );
+
+
+// A simple health check route to confirm the API is live
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ status: "OK" });
+});
+
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'API is running sucessfully'})
