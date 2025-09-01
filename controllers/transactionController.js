@@ -72,6 +72,9 @@ exports.getTransaction = async (req, res, next) => {
 // PUT /api/transactions/:id (Admin only)
 exports.updateTransaction = async (req, res, next) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Authentication required' });
+    }
     if (req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Not authorized to update transactions' });
     }
@@ -98,6 +101,9 @@ exports.updateTransaction = async (req, res, next) => {
 // DELETE /api/transactions/:id (Admin only)
 exports.deleteTransaction = async (req, res, next) => {
   try {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Authentication required' });
+    }
     if (req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Not authorized to delete transactions' });
     }
